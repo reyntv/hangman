@@ -6,6 +6,7 @@ class Wordbank {
   Wordbank(filename) {
     words = File(filename).readAsLinesSync();
     words.shuffle();
+    print('words: $words');
   }
 
   String getWord() {

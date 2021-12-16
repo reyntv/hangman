@@ -7,9 +7,11 @@ import 'wordbank.dart';
 //TODO: remove print calls
 class Game {
   int incorrectGuesses = 0;
+  String difficultyAnswer = '';
   Wordhandler wordhandler;
   String currentWord;
   Inputhandler inputhandler = Inputhandler();
+  Wordbank wordbank;
 
   Game() {
     initializeGame();
@@ -17,8 +19,20 @@ class Game {
   }
 
   void initializeGame() {
-    //TODO: change wordbank according to difficulty?
-    currentWord = Wordbank('words/hard.txt').getWord();
+    //TODO: Get difficulty through flutter UI
+    print('Play with hard words? y/n?');
+    difficultyAnswer = stdin.readLineSync();
+
+    //TODO: make a difficulty class
+    if (difficultyAnswer == 'y') {
+      wordbank = Wordbank('words/hard.txt');
+      //currentWord = Wordbank('words/hard.txt').getWord();
+    } else {
+      wordbank = Wordbank('words/normal.txt');
+      //currentWord = Wordbank('words/normal.txt').getWord();
+    }
+
+    currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
     print(currentWord);
   }
@@ -42,7 +56,7 @@ class Game {
 
     print(wordhandler.displayWord);
 
-    //TODO: rework this when handled in flutter
+    //TODO: rework playing again when handled in flutter
     if (hasWon()) {
       print('You won!');
     }
@@ -52,7 +66,7 @@ class Game {
     }
 
     if (hasWon() || hasLost()) {
-      print('Restart game? y? ');
+      print('Restart game? y/n? ');
       String restartAnswer = stdin.readLineSync();
       if (restartAnswer == 'y') {
         reset();
@@ -61,9 +75,24 @@ class Game {
   }
 
   void reset() {
+    if (wordbank.words.isEmpty) {
+      print('''You finished all the words in this difficulty!
+          Wordbank will be reset.''');
+
+      if (difficultyAnswer == 'y') {
+        wordbank = Wordbank('words/hard.txt');
+        //currentWord = Wordbank('words/hard.txt').getWord();
+      } else {
+        wordbank = Wordbank('words/normal.txt');
+        //currentWord = Wordbank('words/normal.txt').getWord();
+      }
+    }
     incorrectGuesses = 0;
     wordhandler.reset();
-    initializeGame();
+    currentWord = wordbank.getWord();
+    wordhandler = Wordhandler(currentWord);
+    print(currentWord);
+    print('wordbank: ${wordbank.words}');
   }
 
   void handleWrongGuess() {
