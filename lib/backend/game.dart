@@ -7,6 +7,7 @@ import 'wordbank.dart';
 //TODO: remove print calls
 class Game {
   int incorrectGuesses = 0;
+  int numberOfAllowedGuesses;
   String difficultyAnswer = '';
   Wordhandler wordhandler;
   String currentWord;
@@ -23,7 +24,6 @@ class Game {
     print('Play with hard words? y/n?');
     difficultyAnswer = stdin.readLineSync();
 
-    //TODO: make a difficulty class
     if (difficultyAnswer == 'y') {
       wordbank = Wordbank('words/hard.txt');
       //currentWord = Wordbank('words/hard.txt').getWord();
@@ -31,6 +31,9 @@ class Game {
       wordbank = Wordbank('words/normal.txt');
       //currentWord = Wordbank('words/normal.txt').getWord();
     }
+
+    print('Number of allowed guesses: ');
+    numberOfAllowedGuesses = int.parse(stdin.readLineSync());
 
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
@@ -105,7 +108,6 @@ class Game {
   }
 
   bool hasLost() {
-    //TODO: fix hardcoding of allowed incorrect guesses?
-    return incorrectGuesses >= 7;
+    return incorrectGuesses >= numberOfAllowedGuesses;
   }
 }
