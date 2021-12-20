@@ -13,7 +13,7 @@ void main() {
   );
 }
 
-//TODO: the whole flutter UI thing!
+//TODO: Nicer UI, show everything that's required
 
 class Hangman extends StatefulWidget {
   @override
@@ -24,7 +24,6 @@ class _HangmanState extends State<Hangman> {
   @override
   Widget build(BuildContext context) {
     Game game = Provider.of<Game>(context);
-    game.initializeGame();
 
     return MaterialApp(
       home: Scaffold(
@@ -34,8 +33,12 @@ class _HangmanState extends State<Hangman> {
         body: Column(
           children: <Widget>[
             Expanded(
-              child: CharacterMap()
+              child: Text(game.wordhandler.display()),
             ),
+            /*Expanded(
+              child: Text(game.inputhandler.displayWrongGuesses()),
+            ),*/
+            Expanded(child: CharacterMap()),
           ],
         ),
       ),
