@@ -20,7 +20,7 @@ class Inputhandler {
   }
 
   String displayWrongGuesses() {
-    return wronglyGuessedCharacters.join(' ');
+    return wronglyGuessedCharacters.join(' ').toUpperCase();
   }
 
   void reset() {

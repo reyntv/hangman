@@ -27,6 +27,9 @@ class GameScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Text(game.inputhandler.wronglyGuessedCharacters.isEmpty
+                ? ''
+                : 'Incorrect guesses: ${game.inputhandler.displayWrongGuesses()}'),
             Column(children: <Widget>[CharacterMap()]),
           ],
         ),
