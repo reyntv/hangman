@@ -26,7 +26,7 @@ class Game with ChangeNotifier {
     //temp hardcoded inputs
     wordbank = Wordbank(hardWords);
     print(wordbank.words);
-    numberOfAllowedGuesses = 7;
+    numberOfAllowedGuesses = 11;
 
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);

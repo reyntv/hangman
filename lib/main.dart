@@ -15,8 +15,6 @@ void main() {
   );
 }
 
-//TODO: Nicer UI, show everything that's required
-
 class Hangman extends StatefulWidget {
   @override
   State<Hangman> createState() => _HangmanState();
@@ -35,13 +33,16 @@ class _HangmanState extends State<Hangman> {
         body: SafeArea(
           child: Column(
             children: <Widget>[
+              HangingProgressDrawing(),
               Expanded(
-                child: Text(game.wordhandler.display()),
+                child: Text(
+                  game.wordhandler.display().toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 30.0,
+                  ),
+                ),
               ),
-              /*Expanded(
-                child: Text(game.inputhandler.displayWrongGuesses()),
-              ),*/
-              Expanded(child: CharacterMap()),
+              Column(children: <Widget>[CharacterMap()]),
             ],
           ),
         ),
