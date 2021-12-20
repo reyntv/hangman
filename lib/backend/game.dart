@@ -48,6 +48,8 @@ class Game with ChangeNotifier {
         handleWrongGuess(guess);
       }
 
+      inputhandler.availableCharacters.remove(guess);
+
       print(wordhandler.displayWord);
 
       //TODO: rework playing again when handled in flutter
@@ -63,7 +65,6 @@ class Game with ChangeNotifier {
         reset();
       }
 
-      inputhandler.availableCharacters.remove(guess);
       notifyListeners();
     }
   }

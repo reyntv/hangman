@@ -19,6 +19,8 @@ class CharacterMap extends StatelessWidget {
 
     for (String character in alphabet) {
       characters.add(CharacterInput(
+        shouldBeVisible:
+            game.inputhandler.availableCharacters.contains(character),
         character: character,
         onPress: () => game.playRound(character),
       ));

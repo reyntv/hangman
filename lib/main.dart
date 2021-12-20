@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'backend/game.dart';
 import 'package:flutter/widgets.dart';
 
+//TODO: Go through Dart analysis and fix
+
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -30,16 +32,18 @@ class _HangmanState extends State<Hangman> {
         appBar: AppBar(
           title: Text('HANGMAN'),
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: Text(game.wordhandler.display()),
-            ),
-            /*Expanded(
-              child: Text(game.inputhandler.displayWrongGuesses()),
-            ),*/
-            Expanded(child: CharacterMap()),
-          ],
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Text(game.wordhandler.display()),
+              ),
+              /*Expanded(
+                child: Text(game.inputhandler.displayWrongGuesses()),
+              ),*/
+              Expanded(child: CharacterMap()),
+            ],
+          ),
         ),
       ),
     );
