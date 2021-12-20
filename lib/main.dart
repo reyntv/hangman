@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:hangman/widgets/widgets.dart';
+import 'package:provider/provider.dart';
+import 'backend/game.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => Game(),
+      child: Hangman(),
+    ),
+  );
 }
 
 //TODO: the whole flutter UI thing!
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+class Hangman extends StatefulWidget {
+  @override
+  State<Hangman> createState() => _HangmanState();
+}
 
-  // This widget is the root of your application.
+class _HangmanState extends State<Hangman> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Hangman',
+    Game game = Provider.of<Game>(context);
+    game.initializeGame();
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('HANGMAN'),
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: CharacterMap()
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

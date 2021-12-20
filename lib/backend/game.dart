@@ -1,11 +1,18 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+import 'package:hangman/backend/alphabet.dart';
 import 'inputhandler.dart';
 import 'wordhandler.dart';
 import 'wordbank.dart';
+import 'words/normal.dart';
+import 'words/hard.dart';
+
+//const String hardWords = 'words/hard.txt';
+//const String normalWords = 'words/normal.txt';
+
 
 //TODO: remove print calls
-class Game {
+class Game extends ChangeNotifier {
   int incorrectGuesses = 0;
   int numberOfAllowedGuesses;
   String difficultyAnswer = '';
@@ -16,39 +23,39 @@ class Game {
 
   Game() {
     initializeGame();
-    start();
+    //start();
   }
 
   void initializeGame() {
     //TODO: Get difficulty through flutter UI
-    print('Play with hard words? y/n?');
+    /*print('Play with hard words? y/n?');
     difficultyAnswer = stdin.readLineSync();
 
-    if (difficultyAnswer == 'y') {
-      wordbank = Wordbank('words/hard.txt');
-      //currentWord = Wordbank('words/hard.txt').getWord();
-    } else {
-      wordbank = Wordbank('words/normal.txt');
-      //currentWord = Wordbank('words/normal.txt').getWord();
-    }
+    wordbank =
+        difficultyAnswer == 'y' ? Wordbank(hardWords) : Wordbank(normalWords);
 
     print('Number of allowed guesses: ');
-    numberOfAllowedGuesses = int.parse(stdin.readLineSync());
+    numberOfAllowedGuesses = int.parse(stdin.readLineSync());*/
+
+    //temp hardcoded inputs
+    wordbank = Wordbank(hardWords);
+    print(wordbank.words);
+    numberOfAllowedGuesses = 7;
 
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
     print(currentWord);
   }
 
-  void start() {
+  /*void start() {
     while (!hasWon() && !hasLost()) {
       playRound();
     }
-  }
+  }*/
 
-  void playRound() {
-    print('Word length: ${wordhandler.currentWord.length}');
-    String guess = inputhandler.getGuess();
+  playRound(String guess) {
+    /*print('Word length: ${wordhandler.currentWord.length}');
+    String guess = inputhandler.getGuess();*/
 
     if (wordhandler.checkChar(guess)) {
       print('correct');
@@ -69,12 +76,13 @@ class Game {
     }
 
     if (hasWon() || hasLost()) {
-      print('Restart game? y/n? ');
+      /*print('Restart game? y/n? ');
       String restartAnswer = stdin.readLineSync();
       if (restartAnswer == 'y') {
         reset();
-      }
+      }*/
     }
+    notifyListeners();
   }
 
   void reset() {
@@ -82,20 +90,17 @@ class Game {
       print('''You finished all the words in this difficulty!
           Wordbank will be reset.''');
 
-      if (difficultyAnswer == 'y') {
-        wordbank = Wordbank('words/hard.txt');
-        //currentWord = Wordbank('words/hard.txt').getWord();
-      } else {
-        wordbank = Wordbank('words/normal.txt');
-        //currentWord = Wordbank('words/normal.txt').getWord();
-      }
+      /*wordbank =
+          difficultyAnswer == 'y' ? Wordbank(hardWords) : Wordbank(normalWords);*/
+
+      //temp hardcoded inputs
+      wordbank = Wordbank(hardWords);
     }
     incorrectGuesses = 0;
     wordhandler.reset();
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
     print(currentWord);
-    print('wordbank: ${wordbank.words}');
   }
 
   void handleWrongGuess() {

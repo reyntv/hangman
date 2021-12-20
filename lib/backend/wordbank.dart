@@ -3,10 +3,9 @@ import 'dart:io';
 class Wordbank {
   List<String> words;
 
-  Wordbank(filename) {
-    words = File(filename).readAsLinesSync();
+  Wordbank(List<String> wordbankDifficulty) {
+    words = wordbankDifficulty;
     words.shuffle();
-    print('words: $words');
   }
 
   String getWord() {
