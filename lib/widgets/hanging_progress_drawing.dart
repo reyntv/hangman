@@ -8,7 +8,8 @@ class HangingProgressDrawing extends StatelessWidget {
     Game game = Provider.of<Game>(context);
     return Container(
       padding: EdgeInsets.only(top: 50.0, bottom: 50.0),
-      child: Image.asset('images/hangman${game.incorrectGuesses}.png'),
+      child: Image.asset('images/hangman${game.incorrectGuesses}.png',
+          gaplessPlayback: true),
     );
   }
 }

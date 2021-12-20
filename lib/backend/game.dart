@@ -17,7 +17,6 @@ class Game with ChangeNotifier {
 
   Game() {
     initializeGame();
-    //start();
   }
 
   void initializeGame() {
@@ -25,32 +24,21 @@ class Game with ChangeNotifier {
 
     //temp hardcoded inputs
     wordbank = Wordbank(hardWords);
-    print(wordbank.words);
     numberOfAllowedGuesses = 11;
 
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
-    print(currentWord);
   }
-
-  /*void start() {
-    while (!hasWon() && !hasLost()) {
-      playRound();
-    }
-  }*/
 
   playRound(String guess) {
     if (inputhandler.availableCharacters.contains(guess)) {
       if (wordhandler.checkChar(guess)) {
-        print('correct');
         wordhandler.addChar(guess);
       } else {
         handleWrongGuess(guess);
       }
 
       inputhandler.availableCharacters.remove(guess);
-
-      print(wordhandler.displayWord);
 
       //TODO: rework playing again when handled in flutter
       if (hasWon()) {
@@ -63,9 +51,9 @@ class Game with ChangeNotifier {
 
       if (hasWon() || hasLost()) {
         reset();
+      } else {
+        notifyListeners();
       }
-
-      notifyListeners();
     }
   }
 
@@ -82,7 +70,6 @@ class Game with ChangeNotifier {
     inputhandler.reset();
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
-    print(currentWord);
     notifyListeners();
   }
 
@@ -90,9 +77,7 @@ class Game with ChangeNotifier {
     if (!inputhandler.wronglyGuessedCharacters.contains(guess)) {
       inputhandler.wrongGuess(guess);
       incorrectGuesses++;
-      print('wrong $incorrectGuesses');
     }
-    print(inputhandler.wronglyGuessedCharacters);
   }
 
   bool hasWon() {

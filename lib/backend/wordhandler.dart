@@ -34,7 +34,6 @@ class Wordhandler {
   }
 
   String display() {
-    //print(displayWord.join(' '));
     return displayWord.join(' ');
   }
 
