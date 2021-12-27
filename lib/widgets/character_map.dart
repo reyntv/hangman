@@ -8,9 +8,11 @@ class CharacterMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Game game = Provider.of<Game>(context);
-    return Wrap(
-      alignment: WrapAlignment.center,
-      children: generateCharacters(game),
+    return Expanded(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        children: generateCharacters(game),
+      ),
     );
   }
 

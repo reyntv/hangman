@@ -4,26 +4,23 @@ import 'wordhandler.dart';
 import 'wordbank.dart';
 import 'words/normal.dart';
 import 'words/hard.dart';
+import 'settings.dart';
 
-//TODO: remove print calls
 class Game with ChangeNotifier {
   int incorrectGuesses = 0;
   int numberOfAllowedGuesses;
-  String difficultyAnswer = '';
   String currentWord;
   Wordhandler wordhandler;
-  Inputhandler inputhandler = Inputhandler();
   Wordbank wordbank;
+  Inputhandler inputhandler = Inputhandler();
+  Settings settings = Settings();
 
   Game() {
     initializeGame();
   }
 
   void initializeGame() {
-    //TODO: Get difficulty through flutter UI
-
-    //temp hardcoded inputs
-    wordbank = Wordbank(hardWords);
+    wordbank = Wordbank(normalWords);
     numberOfAllowedGuesses = 11;
 
     currentWord = wordbank.getWord();
@@ -39,31 +36,17 @@ class Game with ChangeNotifier {
       }
 
       inputhandler.availableCharacters.remove(guess);
-
-      //TODO: rework playing again when handled in flutter
-      if (hasWon()) {
-        print('You won!');
-      }
-
-      if (hasLost()) {
-        print('You lost!');
-      }
-
-      if (hasWon() || hasLost()) {
-        reset();
-      } else {
-        notifyListeners();
-      }
+      notifyListeners();
     }
   }
 
   void reset() {
+    //TODO: Handle finished wordbank in flutter UI
     if (wordbank.words.isEmpty) {
       print('''You finished all the words in this difficulty!
           Wordbank will be reset.''');
 
-      //temp hardcoded inputs
-      wordbank = Wordbank(hardWords);
+      wordbank = Wordbank(normalWords);
     }
     incorrectGuesses = 0;
     wordhandler.reset();
@@ -71,6 +54,11 @@ class Game with ChangeNotifier {
     currentWord = wordbank.getWord();
     wordhandler = Wordhandler(currentWord);
     notifyListeners();
+  }
+
+  void settingsChanged() {
+    wordbank = settings.hardWords ? Wordbank(hardWords) : Wordbank(normalWords);
+    reset();
   }
 
   void handleWrongGuess(String guess) {

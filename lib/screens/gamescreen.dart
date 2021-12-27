@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hangman/backend/game.dart';
 import 'package:hangman/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-//TODO: Show incorrect guesses.
-//TODO: Difficulty selection in UI.
-//TODO: Play again widget.
+import 'screens.dart';
 
 class GameScreen extends StatelessWidget {
   @override
@@ -14,23 +13,30 @@ class GameScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('HANGMAN'),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingsScreen(),
+                    ));
+              }),
+        ],
       ),
-      body: SafeArea(
+      body: Center(
         child: Column(
           children: <Widget>[
-            HangingProgressDrawing(),
-            Expanded(
-              child: Text(
-                game.wordhandler.display().toUpperCase(),
-                style: TextStyle(
-                  fontSize: 30.0,
-                ),
-              ),
+            Text(
+              'Word difficulty: ${game.settings.hardWords ? 'Hard' : 'Normal'}',
             ),
-            Text(game.inputhandler.wronglyGuessedCharacters.isEmpty
-                ? ''
-                : 'Incorrect guesses: ${game.inputhandler.displayWrongGuesses()}'),
-            Column(children: <Widget>[CharacterMap()]),
+            HangingProgressDrawing(),
+            WordProgress(),
+            IncorrectGuesses(),
+            game.hasLost() || game.hasWon()
+                ? TextButton(onPressed: game.reset, child: Text('Play again'))
+                : CharacterMap(),
           ],
         ),
       ),
